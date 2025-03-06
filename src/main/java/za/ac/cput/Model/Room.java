@@ -4,13 +4,13 @@ import java.util.Objects;
 
 public class Room {
     private long roomId;
-    private long userId;
+    private User user;
     private String roomNumber;
     private int capacity;
 
     private Room(RoomBuilder builder) {
         this.roomId = builder.roomId;
-        this.userId = builder.userId;
+        this.user = builder.user;
         this.roomNumber = builder.roomNumber;
         this.capacity = builder.capacity;
     }
@@ -19,8 +19,8 @@ public class Room {
         return roomId;
     }
 
-    public long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
     public String getRoomNumber() {
@@ -36,19 +36,19 @@ public class Room {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Room room = (Room) o;
-        return roomId == room.roomId && userId == room.userId && capacity == room.capacity && Objects.equals(roomNumber, room.roomNumber);
+        return roomId == room.roomId && user == room.user && capacity == room.capacity && Objects.equals(roomNumber, room.roomNumber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(roomId, userId, roomNumber, capacity);
+        return Objects.hash(roomId, user, roomNumber, capacity);
     }
 
     @Override
     public String toString() {
         return "Room{" +
                 "roomId=" + roomId +
-                ", userId=" + userId +
+                ", user=" + user +
                 ", roomNumber='" + roomNumber + '\'' +
                 ", capacity=" + capacity +
                 '}';
@@ -56,7 +56,7 @@ public class Room {
 
     public static class RoomBuilder {
         private long roomId;
-        private long userId;
+        private User user;
         private String roomNumber;
         private int capacity;
 
@@ -70,7 +70,7 @@ public class Room {
 
         public RoomBuilder copy(Room room) {
             this.roomId = room.roomId;
-            this.userId = room.userId;
+            this.user = room.user;
             this.roomNumber = room.roomNumber;
             this.capacity = room.capacity;
             return this;
