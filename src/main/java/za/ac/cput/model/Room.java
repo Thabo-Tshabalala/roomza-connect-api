@@ -1,9 +1,18 @@
-package za.ac.cput.Model;
+package za.ac.cput.model;
+
+import jakarta.persistence.*;
 
 import java.util.Objects;
+@Entity
 
+@Table(name="rooms")
 public class Room {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "room_id")
     private long roomId;
+    @ManyToOne
+    @JoinColumn(name = ("user_id"), nullable = false)
     private User user;
     private String roomNumber;
     private int capacity;
@@ -14,6 +23,8 @@ public class Room {
         this.roomNumber = builder.roomNumber;
         this.capacity = builder.capacity;
     }
+
+    protected Room() {}
 
     public long getRoomId() {
         return roomId;
@@ -60,12 +71,19 @@ public class Room {
         private String roomNumber;
         private int capacity;
 
-        public void setRoomNumber(String roomNumber) {
-            this.roomNumber = roomNumber;
+        public RoomBuilder setUser(User user) {
+            this.user = user;
+           return this;
         }
 
-        public void setCapacity(int capacity) {
+        public RoomBuilder setRoomNumber(String roomNumber) {
+            this.roomNumber = roomNumber;
+            return this;
+        }
+
+        public RoomBuilder setCapacity(int capacity) {
             this.capacity = capacity;
+            return this;
         }
 
         public RoomBuilder copy(Room room) {
