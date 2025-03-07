@@ -1,4 +1,14 @@
 package za.ac.cput.service;
 
-public interface IService {
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public interface IService<T,ID> {
+    T create(T t);
+    T read(ID id);
+    T update(T t);
+    void delete(ID id);
+    List<T> getAll();
 }
