@@ -1,20 +1,25 @@
-package za.ac.cput.Model;
+package za.ac.cput.model;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
 import java.util.Objects;
-
+@Entity
 public class Residence {
-
+    @Id
     private long residenceId;
     private String residenceName;
     private String genderRestriction;
-    private boolean swapAvailable;
+    private String swapAvailable;
 
-public Residence(Builder builder) {
+public Residence(ResidenceBuilder builder) {
     this.residenceId = builder.residenceId;
     this.residenceName = builder.residenceName;
     this.genderRestriction = builder.genderRestriction;
     this.swapAvailable = builder.swapAvailable;
 }
+
+    protected Residence() {}
 
     public long getResidenceId(){
         return residenceId;
@@ -28,7 +33,7 @@ public Residence(Builder builder) {
         return genderRestriction;
     }
 
-    public boolean isSwapAvailable() {
+    public String isSwapAvailable() {
         return swapAvailable;
     }
 
@@ -55,26 +60,29 @@ public Residence(Builder builder) {
                 '}';
     }
 
-    public static class Builder{
+    public static class ResidenceBuilder{
         private long residenceId;
         private String residenceName;
         private String genderRestriction;
-        private boolean swapAvailable;
+        private String swapAvailable;
 
 
-        public void setResidenceName(String residenceName) {
+        public ResidenceBuilder setResidenceName(String residenceName) {
             this.residenceName = residenceName;
+            return this;
         }
 
-        public void setGenderRestriction(String genderRestriction) {
+        public ResidenceBuilder setGenderRestriction(String genderRestriction) {
             this.genderRestriction = genderRestriction;
+            return this;
         }
 
-        public void setSwapAvailable(boolean swapAvailable) {
+        public ResidenceBuilder setSwapAvailable(String swapAvailable) {
             this.swapAvailable = swapAvailable;
+            return this;
         }
 
-        public Builder copy(Residence residence){
+        public ResidenceBuilder copy(Residence residence){
             this.residenceId = residence.residenceId;
             this.residenceName = residence.residenceName;
             this.genderRestriction = residence.genderRestriction;

@@ -1,26 +1,37 @@
-package za.ac.cput.Model;
+package za.ac.cput.model;
+
+import jakarta.persistence.*;
 
 import java.util.Objects;
+@Entity
 
+@Table(name="rooms")
 public class Room {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "room_id")
     private long roomId;
-    private long userId;
+    @ManyToOne
+    @JoinColumn(name = ("user_id"), nullable = false)
+    private User user;
     private String roomNumber;
     private int capacity;
 
     private Room(RoomBuilder builder) {
         this.roomId = builder.roomId;
-        this.userId = builder.userId;
+        this.user = builder.user;
         this.roomNumber = builder.roomNumber;
         this.capacity = builder.capacity;
     }
+
+    protected Room() {}
 
     public long getRoomId() {
         return roomId;
     }
 
-    public long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
     public String getRoomNumber() {
@@ -36,19 +47,19 @@ public class Room {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Room room = (Room) o;
-        return roomId == room.roomId && userId == room.userId && capacity == room.capacity && Objects.equals(roomNumber, room.roomNumber);
+        return roomId == room.roomId && user == room.user && capacity == room.capacity && Objects.equals(roomNumber, room.roomNumber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(roomId, userId, roomNumber, capacity);
+        return Objects.hash(roomId, user, roomNumber, capacity);
     }
 
     @Override
     public String toString() {
         return "Room{" +
                 "roomId=" + roomId +
-                ", userId=" + userId +
+                ", user=" + user +
                 ", roomNumber='" + roomNumber + '\'' +
                 ", capacity=" + capacity +
                 '}';
@@ -56,21 +67,28 @@ public class Room {
 
     public static class RoomBuilder {
         private long roomId;
-        private long userId;
+        private User user;
         private String roomNumber;
         private int capacity;
 
-        public void setRoomNumber(String roomNumber) {
-            this.roomNumber = roomNumber;
+        public RoomBuilder setUser(User user) {
+            this.user = user;
+           return this;
         }
 
-        public void setCapacity(int capacity) {
+        public RoomBuilder setRoomNumber(String roomNumber) {
+            this.roomNumber = roomNumber;
+            return this;
+        }
+
+        public RoomBuilder setCapacity(int capacity) {
             this.capacity = capacity;
+            return this;
         }
 
         public RoomBuilder copy(Room room) {
             this.roomId = room.roomId;
-            this.userId = room.userId;
+            this.user = room.user;
             this.roomNumber = room.roomNumber;
             this.capacity = room.capacity;
             return this;
