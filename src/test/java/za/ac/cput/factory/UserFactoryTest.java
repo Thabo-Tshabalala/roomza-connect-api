@@ -19,7 +19,7 @@ class UserFactoryTest {
 
     @Test
     //Modify here to test all the remaining scenarios
-    void buildUserWithFail_EmptyFirstName() {
+    void buildUserWithEmptyFirstName() {
      User user = UserFactory.buildUser("", "Tshabalala","0788578803","roomzaConnect@gmail.com","roomza",LocalDate.of(2003, Month.SEPTEMBER,3),Gender.MALE);
         assertNull(user);
     }

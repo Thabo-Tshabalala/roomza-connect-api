@@ -24,7 +24,7 @@ class RoomFactoryTest {
     }
 
     @Test
-    void buildRoomWithFail_InvalidCapacity() {
+    void buildRoomWithInvalidCapacity() {
         room = RoomFactory.buildRoom("A210",0);
         assertNull(room);
     }
