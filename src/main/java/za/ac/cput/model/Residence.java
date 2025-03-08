@@ -1,19 +1,19 @@
 package za.ac.cput.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 @Entity
-public class Residence {
+public class Residence implements Serializable {
     @Id
     private long residenceId;
     private String residenceName;
     @Enumerated(EnumType.STRING)
     private GenderRestriction genderRestriction;
+    @OneToMany(mappedBy = "residence",cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Room> room;
 
 public Residence(ResidenceBuilder builder) {
     this.residenceId = builder.residenceId;
@@ -40,12 +40,12 @@ public Residence(ResidenceBuilder builder) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Residence residence = (Residence) o;
-        return residenceId == residence.residenceId && Objects.equals(residenceName, residence.residenceName) && genderRestriction == residence.genderRestriction;
+        return residenceId == residence.residenceId && Objects.equals(residenceName, residence.residenceName) && genderRestriction == residence.genderRestriction && Objects.equals(room, residence.room);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(residenceId, residenceName, genderRestriction);
+        return Objects.hash(residenceId, residenceName, genderRestriction, room);
     }
 
     @Override
@@ -53,7 +53,8 @@ public Residence(ResidenceBuilder builder) {
         return "Residence{" +
                 "residenceId=" + residenceId +
                 ", residenceName='" + residenceName + '\'' +
-                ", genderRestriction=" + genderRestriction + '\'' +
+                ", genderRestriction=" + genderRestriction +
+                ", room=" + room +
                 '}';
     }
 
@@ -61,6 +62,7 @@ public Residence(ResidenceBuilder builder) {
         private long residenceId;
         private String residenceName;
         private GenderRestriction genderRestriction;
+        private List<Room> room;
 
         public ResidenceBuilder setResidenceName(String residenceName) {
             this.residenceName = residenceName;
@@ -72,10 +74,16 @@ public Residence(ResidenceBuilder builder) {
             return this;
         }
 
+        public ResidenceBuilder setRoom(List<Room> room) {
+            this.room = room;
+            return this;
+        }
+
         public ResidenceBuilder copy(Residence residence){
             this.residenceId = residence.residenceId;
             this.residenceName = residence.residenceName;
             this.genderRestriction = residence.genderRestriction;
+            this.room = residence.room;
             return this;
         }
 

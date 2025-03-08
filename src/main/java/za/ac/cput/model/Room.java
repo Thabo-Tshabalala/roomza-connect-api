@@ -2,26 +2,32 @@ package za.ac.cput.model;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 @Entity
 
-@Table(name="rooms")
-public class Room {
+@Table(name="room")
+public class Room implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "room_id")
     private long roomId;
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL,orphanRemoval = true)
     private List<User> user;
+    @ManyToOne
+    @JoinColumn(name = "residence_id")
+    private Residence residence;
     private String roomNumber;
     private int capacity;
+
 
     private Room(RoomBuilder builder) {
         this.roomId = builder.roomId;
         this.user = builder.user;
         this.roomNumber = builder.roomNumber;
         this.capacity = builder.capacity;
+        this.residence = builder.residence;
     }
 
     protected Room() {}
@@ -41,18 +47,21 @@ public class Room {
     public int getCapacity() {
         return capacity;
     }
+    public Residence getResidence() {
+        return residence;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Room room = (Room) o;
-        return roomId == room.roomId && capacity == room.capacity && Objects.equals(user, room.user) && Objects.equals(roomNumber, room.roomNumber);
+        return roomId == room.roomId && capacity == room.capacity && Objects.equals(user, room.user) && Objects.equals(residence, room.residence) && Objects.equals(roomNumber, room.roomNumber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(roomId, user, roomNumber, capacity);
+        return Objects.hash(roomId, user, residence, roomNumber, capacity);
     }
 
     @Override
@@ -60,6 +69,7 @@ public class Room {
         return "Room{" +
                 "roomId=" + roomId +
                 ", user=" + user +
+                ", residence=" + residence +
                 ", roomNumber='" + roomNumber + '\'' +
                 ", capacity=" + capacity +
                 '}';
@@ -70,6 +80,7 @@ public class Room {
         private List<User> user;
         private String roomNumber;
         private int capacity;
+        private Residence residence;
 
         public RoomBuilder setUser(List<User> user) {
             this.user = user;
@@ -86,11 +97,17 @@ public class Room {
             return this;
         }
 
+        public RoomBuilder setResidence(Residence residence) {
+            this.residence = residence;
+            return this;
+        }
+
         public RoomBuilder copy(Room room) {
             this.roomId = room.roomId;
             this.user = room.user;
             this.roomNumber = room.roomNumber;
             this.capacity = room.capacity;
+            this.residence = room.residence;
             return this;
         }
 
