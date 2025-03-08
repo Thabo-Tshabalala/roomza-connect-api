@@ -1,29 +1,49 @@
 package za.ac.cput.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
 @Table(name="users")
 public class User implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long userId;
     private String firstName;
     private String lastName;
-    private String phoneNumber;
+    @Column(nullable=false, unique=true)
     private String email;
+    @Column(length = 10)
+    private String phoneNumber;
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    private LocalDate dateOfBirth;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
     private String password;
+    @ManyToOne
+    @JoinColumn(name = "room_id",nullable=false)
+    private Room room;
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
+    }
 
     private User(UserBuilder builder) {
         this.userId = builder.userId;
         this.firstName = builder.firstName;
         this.lastName = builder.lastName;
-        this.phoneNumber = builder.phoneNumber;
         this.email = builder.email;
+        this.phoneNumber = builder.phoneNumber;
+        this.dateOfBirth = builder.dateOfBirth;
+        this.gender = builder.gender;
         this.password = builder.password;
     }
 
@@ -49,6 +69,14 @@ public class User implements Serializable {
         return lastName;
     }
 
+    public Gender getGender() {
+        return gender;
+    }
+
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
     public long getUserId() {
         return userId;
     }
@@ -58,12 +86,12 @@ public class User implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return userId == user.userId && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(phoneNumber, user.phoneNumber) && Objects.equals(email, user.email) && Objects.equals(password, user.password);
+        return userId == user.userId && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email) && Objects.equals(phoneNumber, user.phoneNumber) && Objects.equals(dateOfBirth, user.dateOfBirth) && gender == user.gender && Objects.equals(password, user.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, firstName, lastName, phoneNumber, email, password);
+        return Objects.hash(userId, firstName, lastName, email, phoneNumber, dateOfBirth, gender, password);
     }
 
     @Override
@@ -72,8 +100,10 @@ public class User implements Serializable {
                 "userId=" + userId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", gender=" + gender +
                 ", password='" + password + '\'' +
                 '}';
     }
@@ -82,9 +112,12 @@ public class User implements Serializable {
      private long userId;
      private String firstName;
      private String lastName;
-     private String phoneNumber;
      private String email;
+     private String phoneNumber;
+     private LocalDate dateOfBirth;
+     private Gender gender;
      private String password;
+
 
      public UserBuilder setUserId(long userId){
          this.userId = userId;
@@ -106,7 +139,18 @@ public class User implements Serializable {
          this.email = email;
          return this;
      }
-     public UserBuilder setPassword(String password){
+
+        public UserBuilder setDateOfBirth(LocalDate dateOfBirth) {
+            this.dateOfBirth = dateOfBirth;
+            return this;
+        }
+
+        public UserBuilder setGender(Gender gender) {
+            this.gender = gender;
+            return this;
+        }
+
+        public UserBuilder setPassword(String password){
          this.password = password;
          return this;
      }
@@ -115,8 +159,10 @@ public class User implements Serializable {
          this.userId = user.userId;
          this.firstName = user.firstName;
          this.lastName = user.lastName;
-         this.phoneNumber = user.phoneNumber;
          this.email = user.email;
+         this.phoneNumber = user.phoneNumber;
+         this.dateOfBirth = user.dateOfBirth;
+         this.gender = user.gender;
          this.password = user.password;
          return this;
      }

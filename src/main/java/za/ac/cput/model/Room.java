@@ -2,6 +2,7 @@ package za.ac.cput.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Objects;
 @Entity
 
@@ -11,9 +12,8 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "room_id")
     private long roomId;
-    @ManyToOne
-    @JoinColumn(name = ("user_id"), nullable = false)
-    private User user;
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<User> user;
     private String roomNumber;
     private int capacity;
 
@@ -30,7 +30,7 @@ public class Room {
         return roomId;
     }
 
-    public User getUser() {
+    public List<User> getUser() {
         return user;
     }
 
@@ -47,7 +47,7 @@ public class Room {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Room room = (Room) o;
-        return roomId == room.roomId && user == room.user && capacity == room.capacity && Objects.equals(roomNumber, room.roomNumber);
+        return roomId == room.roomId && capacity == room.capacity && Objects.equals(user, room.user) && Objects.equals(roomNumber, room.roomNumber);
     }
 
     @Override
@@ -67,11 +67,11 @@ public class Room {
 
     public static class RoomBuilder {
         private long roomId;
-        private User user;
+        private List<User> user;
         private String roomNumber;
         private int capacity;
 
-        public RoomBuilder setUser(User user) {
+        public RoomBuilder setUser(List<User> user) {
             this.user = user;
            return this;
         }

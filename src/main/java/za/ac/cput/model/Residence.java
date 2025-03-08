@@ -1,22 +1,24 @@
 package za.ac.cput.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 
+import java.util.List;
 import java.util.Objects;
 @Entity
 public class Residence {
     @Id
     private long residenceId;
     private String residenceName;
-    private String genderRestriction;
-    private String swapAvailable;
+    @Enumerated(EnumType.STRING)
+    private GenderRestriction genderRestriction;
 
 public Residence(ResidenceBuilder builder) {
     this.residenceId = builder.residenceId;
     this.residenceName = builder.residenceName;
     this.genderRestriction = builder.genderRestriction;
-    this.swapAvailable = builder.swapAvailable;
 }
 
     protected Residence() {}
@@ -29,12 +31,8 @@ public Residence(ResidenceBuilder builder) {
         return residenceName;
     }
 
-    public String getGenderRestriction() {
+    public GenderRestriction getGenderRestriction() {
         return genderRestriction;
-    }
-
-    public String isSwapAvailable() {
-        return swapAvailable;
     }
 
     @Override
@@ -42,12 +40,12 @@ public Residence(ResidenceBuilder builder) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Residence residence = (Residence) o;
-        return residenceId == residence.residenceId && swapAvailable == residence.swapAvailable && Objects.equals(residenceName, residence.residenceName) && Objects.equals(genderRestriction, residence.genderRestriction);
+        return residenceId == residence.residenceId && Objects.equals(residenceName, residence.residenceName) && genderRestriction == residence.genderRestriction;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(residenceId, residenceName, genderRestriction, swapAvailable);
+        return Objects.hash(residenceId, residenceName, genderRestriction);
     }
 
     @Override
@@ -55,30 +53,22 @@ public Residence(ResidenceBuilder builder) {
         return "Residence{" +
                 "residenceId=" + residenceId +
                 ", residenceName='" + residenceName + '\'' +
-                ", genderRestriction='" + genderRestriction + '\'' +
-                ", swapAvailable=" + swapAvailable +
+                ", genderRestriction=" + genderRestriction + '\'' +
                 '}';
     }
 
     public static class ResidenceBuilder{
         private long residenceId;
         private String residenceName;
-        private String genderRestriction;
-        private String swapAvailable;
-
+        private GenderRestriction genderRestriction;
 
         public ResidenceBuilder setResidenceName(String residenceName) {
             this.residenceName = residenceName;
             return this;
         }
 
-        public ResidenceBuilder setGenderRestriction(String genderRestriction) {
+        public ResidenceBuilder setGenderRestriction(GenderRestriction genderRestriction) {
             this.genderRestriction = genderRestriction;
-            return this;
-        }
-
-        public ResidenceBuilder setSwapAvailable(String swapAvailable) {
-            this.swapAvailable = swapAvailable;
             return this;
         }
 
@@ -86,7 +76,6 @@ public Residence(ResidenceBuilder builder) {
             this.residenceId = residence.residenceId;
             this.residenceName = residence.residenceName;
             this.genderRestriction = residence.genderRestriction;
-            this.swapAvailable = residence.swapAvailable;
             return this;
         }
 
