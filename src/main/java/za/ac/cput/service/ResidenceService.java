@@ -19,6 +19,7 @@ public class ResidenceService implements IService<Residence,Long> {
 
     @Override
     public Residence create(Residence residence) {
+
         return residenceRepository.save(residence);
     }
 

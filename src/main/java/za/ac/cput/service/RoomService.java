@@ -6,15 +6,17 @@ import za.ac.cput.model.Room;
 import za.ac.cput.repository.RoomRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RoomService implements IService<Room,Long> {
-
     private final RoomRepository roomRepository;
+
     @Autowired
     public RoomService(RoomRepository repository) {
         this.roomRepository = repository;
     }
+
     @Override
     public Room create(Room room) {
         return roomRepository.save(room);
@@ -27,7 +29,9 @@ public class RoomService implements IService<Room,Long> {
 
     @Override
     public Room update(Room room) {
-        return roomRepository.save(room);
+        if(roomRepository.existsById(room.getRoomId()))
+            return roomRepository.save(room);
+        throw new RuntimeException("Room not found");
     }
 
     @Override
@@ -44,5 +48,9 @@ public class RoomService implements IService<Room,Long> {
     @Override
     public List<Room> getAll() {
         return roomRepository.findAll();
+    }
+    public Room getRoomById(Long roomId) {
+        Optional<Room> room = roomRepository.findById(roomId);
+        return room.orElseThrow(() -> new IllegalArgumentException("Room with ID " + roomId + " not found"));
     }
 }

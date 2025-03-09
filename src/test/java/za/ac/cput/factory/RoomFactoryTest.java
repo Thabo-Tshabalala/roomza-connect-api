@@ -1,9 +1,7 @@
 package za.ac.cput.factory;
 
 import org.junit.jupiter.api.Test;
-import za.ac.cput.model.Gender;
-import za.ac.cput.model.Room;
-import za.ac.cput.model.User;
+import za.ac.cput.model.*;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -14,18 +12,20 @@ import static org.junit.jupiter.api.Assertions.*;
 class RoomFactoryTest {
 
     private  Room room ;
-    private List<User> user ;
+    private Residence residence ;
     @Test
 
     void buildRoom() {
-        room = RoomFactory.buildRoom("A210",2);
+        residence = ResidenceFactory.createResidence("New Market Junction", GenderRestriction.ANY);
+        room = RoomFactory.buildRoom("A210",2,residence);
         assertNotNull(room);
         assertEquals("A210",room.getRoomNumber());
     }
 
     @Test
     void buildRoomWithInvalidCapacity() {
-        room = RoomFactory.buildRoom("A210",0);
+        residence = ResidenceFactory.createResidence("New Market Junction", GenderRestriction.ANY);
+        room = RoomFactory.buildRoom("A210",0,residence);
         assertNull(room);
     }
 }
