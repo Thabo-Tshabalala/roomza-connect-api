@@ -15,17 +15,17 @@ public class User implements Serializable {
     private long userId;
     private String firstName;
     private String lastName;
-    @Column(nullable=false, unique=true)
-    private String email;
     @Column(length = 10)
     private String phoneNumber;
+//    @Column(nullable=false, unique=true)
+    private String email;
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate dateOfBirth;
     @Enumerated(EnumType.STRING)
     private Gender gender;
     private String password;
-    @ManyToOne
-    @JoinColumn(name = "room_id",nullable=false)
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "room_id")
     private Room room;
 
     public Room getRoom() {
@@ -45,6 +45,7 @@ public class User implements Serializable {
         this.dateOfBirth = builder.dateOfBirth;
         this.gender = builder.gender;
         this.password = builder.password;
+        this.room = builder.room;
     }
 
     protected User() {}
@@ -77,6 +78,8 @@ public class User implements Serializable {
         return dateOfBirth;
     }
 
+
+
     public long getUserId() {
         return userId;
     }
@@ -86,12 +89,12 @@ public class User implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return userId == user.userId && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email) && Objects.equals(phoneNumber, user.phoneNumber) && Objects.equals(dateOfBirth, user.dateOfBirth) && gender == user.gender && Objects.equals(password, user.password);
+        return userId == user.userId && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(phoneNumber, user.phoneNumber) && Objects.equals(email, user.email) && Objects.equals(dateOfBirth, user.dateOfBirth) && gender == user.gender && Objects.equals(password, user.password) && Objects.equals(room, user.room);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, firstName, lastName, email, phoneNumber, dateOfBirth, gender, password);
+        return Objects.hash(userId, firstName, lastName, phoneNumber, email, dateOfBirth, gender, password, room);
     }
 
     @Override
@@ -100,11 +103,12 @@ public class User implements Serializable {
                 "userId=" + userId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
                 ", gender=" + gender +
                 ", password='" + password + '\'' +
+                ", room=" + room +
                 '}';
     }
 
@@ -112,11 +116,12 @@ public class User implements Serializable {
      private long userId;
      private String firstName;
      private String lastName;
+        private String phoneNumber;
      private String email;
-     private String phoneNumber;
      private LocalDate dateOfBirth;
      private Gender gender;
      private String password;
+     private Room room;
 
 
      public UserBuilder setUserId(long userId){
@@ -154,6 +159,10 @@ public class User implements Serializable {
          this.password = password;
          return this;
      }
+     public UserBuilder setRoom(Room room){
+         this.room = room;
+         return this;
+     }
 
      public UserBuilder copy(User user){
          this.userId = user.userId;
@@ -164,6 +173,7 @@ public class User implements Serializable {
          this.dateOfBirth = user.dateOfBirth;
          this.gender = user.gender;
          this.password = user.password;
+         this.room = user.room;
          return this;
      }
 

@@ -8,6 +8,7 @@ import java.util.Objects;
 @Entity
 public class Residence implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long residenceId;
     private String residenceName;
     @Enumerated(EnumType.STRING)

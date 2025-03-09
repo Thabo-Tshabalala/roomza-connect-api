@@ -15,7 +15,7 @@ public class Room implements Serializable {
     private long roomId;
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL,orphanRemoval = true)
     private List<User> user;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "residence_id")
     private Residence residence;
     private String roomNumber;

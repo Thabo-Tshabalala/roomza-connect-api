@@ -12,6 +12,7 @@ public class UserService implements IService<User,Long> {
 
 private final UserRepository userRepository;
 
+
   @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -19,6 +20,8 @@ private final UserRepository userRepository;
 
     @Override
     public User create(User user) {
+      if(userRepository.existsById(user.getUserId()))
+          throw new IllegalArgumentException("User with ID: "+ user.getUserId()+ " already exists") ;
         return userRepository.save(user);
     }
 
@@ -29,7 +32,9 @@ private final UserRepository userRepository;
 
     @Override
     public User update(User user) {
+      if(userRepository.existsById(user.getUserId()))
         return userRepository.save(user);
+      throw new IllegalArgumentException("User with ID: "+ user.getUserId()+ " does not exist") ;
     }
 
     @Override
