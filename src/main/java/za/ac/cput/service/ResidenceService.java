@@ -34,12 +34,13 @@ public class ResidenceService implements IService<Residence,Long> {
     }
 
     @Override
-    public void delete(Long Id) {
+    public boolean delete(Long Id) {
         if(residenceRepository.existsById(Id))
      residenceRepository.deleteById(Id);
         else {
             throw new IllegalStateException("Residence not found");
         }
+        return false;
     }
 
     @Override
