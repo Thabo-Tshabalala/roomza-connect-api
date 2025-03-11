@@ -38,11 +38,12 @@ private final UserRepository userRepository;
     }
 
     @Override
-    public void delete(Long userId) {
+    public boolean delete(Long userId) {
       if(userRepository.existsById(userId))
          userRepository.deleteById(userId);
       else
           throw new IllegalStateException("User " + userId + " not found");
+        return false;
     }
 
     @Override

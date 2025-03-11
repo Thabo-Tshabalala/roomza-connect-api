@@ -35,7 +35,7 @@ public class RoomService implements IService<Room,Long> {
     }
 
     @Override
-    public void delete(Long Id) {
+    public boolean delete(Long Id) {
  if(roomRepository.findById(Id).isPresent()){
      roomRepository.deleteById(Id);
  }
@@ -43,6 +43,7 @@ public class RoomService implements IService<Room,Long> {
      throw new IllegalStateException("Room " + Id+ " not found");
  }
 
+        return false;
     }
 
     @Override
