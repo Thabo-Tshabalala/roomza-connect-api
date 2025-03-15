@@ -1,4 +1,7 @@
-FROM ubuntu:latest
-LABEL authors="justi"
+FROM openjdk:25-slim-bullseye
 
-ENTRYPOINT ["top", "-b"]
+# Adding the Jar file to the container
+ADD target/roomza-connect-za.jar /roomza-connect-za.jar
+
+# Setting the entrypoint for running the app
+ENTRYPOINT ["java", "-jar", "/roomza-connect-za.jar"]

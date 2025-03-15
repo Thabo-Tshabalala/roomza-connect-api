@@ -2,6 +2,7 @@ package za.ac.cput.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
 import za.ac.cput.model.User;
 import za.ac.cput.repository.UserRepository;
 
@@ -47,6 +48,7 @@ private final UserRepository userRepository;
     }
 
     @Override
+    @RequestMapping("/getAll")
     public List<User> getAll() {
         return userRepository.findAll();
     }
