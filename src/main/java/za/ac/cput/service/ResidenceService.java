@@ -2,6 +2,7 @@ package za.ac.cput.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import za.ac.cput.model.Residence;
 import za.ac.cput.repository.ResidenceRepository;
 
@@ -29,6 +30,7 @@ public class ResidenceService implements IService<Residence,Long> {
     }
 
     @Override
+    @Transactional
     public Residence update(Residence residence) {
         return residenceRepository.save(residence);
     }

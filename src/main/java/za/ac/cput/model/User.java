@@ -17,14 +17,14 @@ public class User implements Serializable {
     private String lastName;
     @Column(length = 10)
     private String phoneNumber;
-//    @Column(nullable=false, unique=true)
+    @Column(nullable=false, unique=true)
     private String email;
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate dateOfBirth;
     @Enumerated(EnumType.STRING)
     private Gender gender;
     private String password;
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "room_id")
     private Room room;
 

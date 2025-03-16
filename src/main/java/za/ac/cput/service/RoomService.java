@@ -2,6 +2,7 @@ package za.ac.cput.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import za.ac.cput.model.Room;
 import za.ac.cput.repository.RoomRepository;
 
@@ -28,6 +29,7 @@ public class RoomService implements IService<Room,Long> {
     }
 
     @Override
+    @Transactional
     public Room update(Room room) {
         if(roomRepository.existsById(room.getRoomId()))
             return roomRepository.save(room);
