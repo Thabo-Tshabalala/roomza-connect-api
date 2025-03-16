@@ -21,9 +21,7 @@ private final UserRepository userRepository;
 
     @Override
     public User create(User user) {
-      if(userRepository.existsById(user.getUserId()))
-          throw new IllegalArgumentException("User with ID: "+ user.getUserId()+ " already exists") ;
-        return userRepository.save(user);
+    return userRepository.save(user);
     }
 
     @Override

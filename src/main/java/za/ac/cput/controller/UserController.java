@@ -11,6 +11,8 @@ import za.ac.cput.service.ResidenceService;
 import za.ac.cput.service.RoomService;
 import za.ac.cput.service.UserService;
 
+import java.util.List;
+
 @RestController
 public class UserController {
 
@@ -27,16 +29,26 @@ public class UserController {
 
     @PostMapping("/createUser")
     public ResponseEntity<User> createUser(@RequestBody User user) {
-        if (user.getRoom().getRoomId() == 0 && user.getRoom().getResidence().getResidenceId()==0)  {
-            residenceService.create(user.getRoom().getResidence());
-            roomService.create(user.getRoom());
-
-        }
         User createdUser = userService.create(user);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
-@RequestMapping("/")
-    public String greet(){
-        return "Hello Thabo";
+
+    @PutMapping("/updateUser")
+    public ResponseEntity<User> updateUser(@RequestBody User user) {
+        User updatedUser = userService.update(user);
+        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+    }
+
+    @DeleteMapping("delete/{userId}")
+    public ResponseEntity<Boolean> deleteUser(@RequestBody User user) {
+        boolean deletedCustomer = userService.delete(user.getUserId());
+        return new ResponseEntity<>(deletedCustomer, HttpStatus.OK);
+
+    }
+    @GetMapping("/getAllUsers")
+    public ResponseEntity<List<User>> getAllUsers() {
+       List<User> userList = userService.getAll();
+       return new ResponseEntity<>(userList, HttpStatus.OK);
     }
 }
+
