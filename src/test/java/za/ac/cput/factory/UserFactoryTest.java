@@ -24,5 +24,18 @@ class UserFactoryTest {
      User user = UserFactory.buildUser("", "Tshabalala","0788578803","roomzaConnect@gmail.com","roomza",LocalDate.of(2003, Month.SEPTEMBER,3),Gender.MALE,room);
         assertNull(user);
     }
+    @Test
+    void buildUserWithIncorrectEmail(){
+        Room room = RoomFactory.buildRoom("212",3,new Residence.ResidenceBuilder().setResidenceName("New Market Junctions").setGenderRestriction(GenderRestriction.ANY).build());
+        User user = UserFactory.buildUser("Thabo", "Tshabalala","0788578803","roomzaConnectgmail.com","roomza",LocalDate.of(2003, Month.SEPTEMBER,3),Gender.MALE,room);
+        assertNull(user);
+    }
+    @Test
+    void buildUserWithIncorrectPhoneNumber(){
+        Room room = RoomFactory.buildRoom("212",3,new Residence.ResidenceBuilder().setResidenceName("New Market Junctions").setGenderRestriction(GenderRestriction.ANY).build());
+        User user = UserFactory.buildUser("Thabo", "Tshabalala","078857880","roomzaConnect@gmail.com","roomza",LocalDate.of(2003, Month.SEPTEMBER,3),Gender.MALE,room);
+        assertNull(user);
+    }
+
 
 }
