@@ -21,6 +21,8 @@ private final UserRepository userRepository;
 
     @Override
     public User create(User user) {
+    if(userRepository.existsByEmail(user.getEmail()))
+      throw new IllegalArgumentException("Email already exists!");
     return userRepository.save(user);
     }
 
@@ -46,7 +48,6 @@ private final UserRepository userRepository;
     }
 
     @Override
-    @RequestMapping("/getAll")
     public List<User> getAll() {
         return userRepository.findAll();
     }

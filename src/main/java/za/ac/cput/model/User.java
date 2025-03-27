@@ -1,5 +1,6 @@
 package za.ac.cput.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -24,6 +25,7 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     private Gender gender;
     private String password;
+    @JsonIgnore
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "room_id")
     private Room room;
