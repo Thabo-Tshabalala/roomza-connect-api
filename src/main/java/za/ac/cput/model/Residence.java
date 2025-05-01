@@ -13,7 +13,7 @@ public class Residence implements Serializable {
     private String residenceName;
     @Enumerated(EnumType.STRING)
     private GenderRestriction genderRestriction;
-    @OneToMany(mappedBy = "residence",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "residence", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private List<Room> room;
 
 public Residence(ResidenceBuilder builder) {

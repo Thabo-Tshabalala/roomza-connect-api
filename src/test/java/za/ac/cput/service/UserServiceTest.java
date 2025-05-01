@@ -20,11 +20,13 @@ class UserServiceTest {
 
     private static User user;
     private static Room room;
+    private static Residence residence;
 
     @Test
     @Order(0)
     void setUp() {
-        room = RoomFactory.buildRoom("210", 2, new Residence.ResidenceBuilder().setResidenceName("New Market Junctions").setGenderRestriction(GenderRestriction.ANY).build());
+        residence =  new Residence.ResidenceBuilder().setResidenceName("New Market Junctions").setGenderRestriction(GenderRestriction.ANY).build();
+        room = RoomFactory.buildRoom("210", 2,residence);
         user = UserFactory.buildUser("Thabo", "Tshabalala", "0788578803", "roomzaConnect@gmail.com", "roomza", LocalDate.of(2003, Month.SEPTEMBER, 3), Gender.MALE, room);
     }
 

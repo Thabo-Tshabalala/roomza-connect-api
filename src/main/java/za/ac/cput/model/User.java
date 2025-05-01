@@ -24,7 +24,7 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     private Gender gender;
     private String password;
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "room_id")
     private Room room;
 

@@ -13,7 +13,7 @@ public class Room implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "room_id")
     private long roomId;
-    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "room")
     private List<User> user;
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "residence_id")
